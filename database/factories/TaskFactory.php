@@ -19,7 +19,7 @@ class TaskFactory extends Factory
     {
         return [
             'name'=>fake()->sentence(3),
-            'project_id'=>Project::factory()
+            'project_id'=>Project::inRandomOrder()->first()
         ];
     }
 }

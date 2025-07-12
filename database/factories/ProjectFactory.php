@@ -21,8 +21,8 @@ class ProjectFactory extends Factory
     {
         return [
             'name'=>fake()->sentence(5),
-            'user_id'=>User::factory(),
-            'client_id'=>Client::factory()
+            'user_id'=>User::inRandomOrder()->first() ,
+            'client_id'=>Client::inRandomOrder()->first()
         ];
     }
 }
