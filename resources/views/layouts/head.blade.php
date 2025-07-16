@@ -41,3 +41,6 @@ $locale = App::getLocale() ;
 <!---Skinmodes css-->
 <link href="{{URL::asset('assets/css/skin-modes.css')}}" rel="stylesheet">
 @endif
+
+<link href="{{URL::asset('assets/plugins/quill/quill.snow.css')}}" rel="stylesheet">
+<link href="{{URL::asset('assets/plugins/quill/quill.bubble.css')}}" rel="stylesheet">

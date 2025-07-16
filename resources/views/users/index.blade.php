@@ -2,12 +2,22 @@
 
 @section('content')
 <div class="container">
+    @if(session('success'))
+        <div class="alert alert-success">
+            {{ session('success') }}
+        </div>
+    @endif
     				<div class="col-xl-12">
 						<div class="card">
 							<div class="card-header pb-0">
 								<div class="d-flex justify-content-between">
 									<h4 class="card-title mg-b-0">All Users</h4>
 									<i class="mdi mdi-dots-horizontal text-gray"></i>
+                                    @can('add users')
+                                        <a href="{{route('user.create')}}" class="btn btn-primary">Add User</a>
+                                        <a href="{{route('user.showDeletedUsers')}}" class="btn btn-primary">Show Deleted Users</a>
+
+                                    @endcan
 								</div>
 							</div>
 							<div class="card-body">
@@ -33,13 +43,19 @@
                                                                 {{ $role->name }}
                                                             @endforeach
                                                         </td>
-                                                        <td>Action</td>
+                                                        <td>
+                                                            @can('delete users')
+                                                            <a href="{{route('user.delete',['user'=>$row->id])}}" class="btn btn-danger">delete</a>
+                                                            @endcan
+                                                        </td>
                                                     </tr>
                                                 @endforeach
 
 										</tbody>
+                                    </table>
 								</div>
 							</div>
-					</div>
+					    </div>
+                    </div>
 </div>
 @endsection

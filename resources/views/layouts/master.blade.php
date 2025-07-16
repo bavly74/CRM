@@ -25,7 +25,9 @@
 				@yield('page-header')
 				@yield('content')
 				@include('layouts.main-sidebar')
-            	@include('layouts.footer')
 				@include('layouts.footer-scripts')
-	</body>
+                @include('layouts.footer')
+
+
+    </body>
 </html>

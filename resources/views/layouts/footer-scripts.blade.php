@@ -60,3 +60,10 @@ $locale = App::getLocale() ;
 <script src="{{URL::asset('assets/plugins/datatable/js/responsive.bootstrap4.min.js')}}"></script>
 <!--Internal  Datatable js -->
 <script src="{{URL::asset('assets/js/table-data.js')}}"></script>
+
+<!--Internal  Select2 js -->
+<script src="{{URL::asset('assets/plugins/select2/js/select2.min.js')}}"></script>
+<!--Internal quill js -->
+<script src="{{URL::asset('assets/plugins/quill/quill.min.js')}}"></script>
+<!-- Internal Form-editor js -->
+<script src="{{URL::asset('assets/js/form-editor.js')}}"></script>
