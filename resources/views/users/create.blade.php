@@ -55,15 +55,15 @@
                         <form class="form-horizontal" action="{{route('user.store')}}" method="post">
                             @csrf
                             <div class="form-group">
-                                <input type="text" name="name" class="form-control" id="inputName" placeholder="Name">
+                                <input type="text" name="name" class="form-control" id="inputName" placeholder="Name" required>
                                 @error('name')<span class="text-danger">{{ $message }}</span>@enderror
                             </div>
                             <div class="form-group">
-                                <input type="email" name="email" class="form-control" id="inputEmail3" placeholder="Email">
+                                <input type="email" name="email" class="form-control" id="inputEmail3" placeholder="Email" required>
                                 @error('email')<span class="text-danger">{{ $message }}</span>@enderror
                             </div>
                             <div class="form-group">
-                                <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="Password">                                @error('name')@enderror
+                                <input type="password" name="password" class="form-control" id="inputPassword3" placeholder="Password" required>                                @error('name')@enderror
                                 @error('password')<span class="text-danger">{{ $message }}</span>@enderror
                             </div>
                             <div class="form-group mb-0 justify-content-end">
@@ -76,7 +76,8 @@
                                                     value="{{ $role->name }}"
                                                     data-checkboxes="mygroup"
                                                     class="custom-control-input"
-                                                    id="checkbox-{{ $role->id }}">
+                                                    id="checkbox-{{ $role->id }}"
+                                                    required>
 
                                                 <label for="checkbox-{{ $role->id }}" class="custom-control-label mt-1">
                                                     {{ $role->name }}

@@ -19,13 +19,28 @@ class RolePermissionController extends Controller
         return view('roles.create');
     }
 
-    public function store( Request $request)
+    public function store(Request $request)
     {
         $data=$request->validate([
             'name'=>'required',
         ]);
         Role::create($data);
         return redirect()->back()->with('success','Role created successfully');
+    }
+
+    public function createPermission(){
+        $roles = Role::all();
+        return view('roles.create-permission',compact('roles'));
+    }
+
+    public function storePermission(Request $request){
+        $data = $request->validate([
+            'name'=>'required',
+            'roles'=>'required'
+        ]);
+        $permission = Permission::create($data);
+        $permission->syncRoles($data['roles']);
+        return redirect()->back()->with('success','permission created successfully');
     }
 
     public function syncPermission($id)
@@ -39,6 +54,5 @@ class RolePermissionController extends Controller
         $role = Role::with('permissions')->findOrFail($id);
         $role->syncPermissions($request->permissions);
         return redirect()->back()->with('message','Permissions Synced Successfully');
-
     }
 }

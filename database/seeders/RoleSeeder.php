@@ -23,8 +23,14 @@ class RoleSeeder extends Seeder
         $permissions =[
             'view users' ,
             'add users',
-            'delete users'
+            'delete users',
+            'view clients',
+            'add clients',
+            'add roles',
+            'view roles',
+            'sync permission'
         ];
+
 
         foreach($permissions as $permission) {
             Permission::firstOrCreate([

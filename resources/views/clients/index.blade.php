@@ -11,12 +11,13 @@
             <div class="card">
                 <div class="card-header pb-0">
                     <div class="d-flex justify-content-between">
-                        <h4 class="card-title mg-b-0">All Users</h4>
+                        <h4 class="card-title mg-b-0">All Clients</h4>
                         <i class="mdi mdi-dots-horizontal text-gray"></i>
+                        @can('add clients')
+                            <a href="{{route('clients.create')}}" class="btn btn-primary">Add Client</a>
+{{--                            <a href="{{route('user.showDeletedUsers')}}" class="btn btn-primary">Show Deleted Users</a>--}}
 
-                            <a href="{{route('roles.create')}}" class="btn btn-primary">Add Role</a>
-                            <a href="{{route('permission.create')}}" class="btn btn-primary">Add Permission</a>
-
+                        @endcan
                     </div>
                 </div>
                 <div class="card-body">
@@ -24,10 +25,8 @@
                         <table class="table text-md-nowrap" id="example1">
                             <thead>
                             <tr>
-                                <th class="wd-15p border-bottom-0">Role Name</th>
-                                <th class="wd-15p border-bottom-0">Permissions</th>
-                                <th class="wd-15p border-bottom-0">Actions</th>
-
+                                <th class="wd-15p border-bottom-0">Name</th>
+                                <th class="wd-15p border-bottom-0">Email</th>
                             </tr>
                             </thead>
                             <tbody>
@@ -35,15 +34,13 @@
                             @foreach ($data as $row )
                                 <tr>
                                     <td>{{ $row->name }}</td>
-                                    <td>
-                                    @foreach($row->permissions  as $permission)
-                                        {{ $permission->name . ' - '??'' }}
+                                    <td>{{ $row->email }}</td>
 
-                                    @endforeach
-                                    </td>
-                                    <td>
-                                        <a href="{{route('roles.syncPermission',['id'=>$row->id])}}" class="btn btn-primary">Sync Permissions</a>
-                                    </td>
+{{--                                    <td>--}}
+{{--                                        @can('delete users')--}}
+{{--                                            <a href="{{route('user.delete',['user'=>$row->id])}}" class="btn btn-danger">delete</a>--}}
+{{--                                        @endcan--}}
+{{--                                    </td>--}}
                                 </tr>
                             @endforeach
 
@@ -54,6 +51,5 @@
             </div>
         </div>
     </div>
-
 @endsection
 

@@ -33,7 +33,7 @@
                                                     class="custom-control-input"
                                                     id="checkbox-{{ $permission->id }}"
                                                     {{ $role->hasPermissionTo($permission->name) ? 'checked' : '' }}
-                                                    >
+                                                    required>
 
                                                 <label for="checkbox-{{ $permission->id }}" class="custom-control-label mt-1">
                                                     {{ $permission->name }}

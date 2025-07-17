@@ -18,7 +18,7 @@
                             <form class="form-horizontal" action="{{route('roles.store')}}" method="post">
                             @csrf
                                 <div class="form-group">
-                                    <input type="text" name="name" class="form-control" >
+                                    <input type="text" name="name" class="form-control" required>
                                 </div>
                                 <div class="form-group mb-0 mt-3 justify-content-end">
                                     <div>
