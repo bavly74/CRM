@@ -25,5 +25,12 @@ class AppServiceProvider extends ServiceProvider
                 'timeout'  => 5.0,
             ]);
         });
+
+        $this->app->singleton(\App\Clients\Fawry::class, function ($app) {
+            return new \App\Clients\Fawry([
+                'base_uri' => 'https://atfawry.fawrystaging.com/fawrypay-api/api/payments/',
+                'timeout'  => 5.0,
+            ]);
+        });
     }
 }

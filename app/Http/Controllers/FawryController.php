@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Clients\Fawry;
 use GuzzleHttp\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Http;
@@ -111,8 +112,9 @@ class FawryController extends Controller
     }
 
 
-    public function initFawryPayment()
+    public function initFawryPayment(Fawry $client)
     {
+        $customerName = 'BAVLY';
         $customerEmail = 'customer@example.com';
         $customerMobile = '01234567891';
         $amount = '100.00'; // المبلغ الإجمالي
@@ -121,69 +123,11 @@ class FawryController extends Controller
         $quantity = 1;
         $paymentExpiry= '1631138400000';
         $language = "en-gb";
-        $returnUrl = 'https://developer.fawrystaging.com'; // رابط العودة بعد الدفع
-        $merchantCode = '1tSa6uxz2nRbgY+b+cZGyA==';
+
         $merchantRefNum = strtoupper(\Str::random(4)) . '-' . time();
-        $customerProfileId = 'CUSTs1001';
-        $paymentMethod = 'PayAtFawry'; // فارغ
-        $merchant_secret_key = '259af31fc2f74453b3a55739b21ae9ef';
 
 
-        //  "merchantCode +
-        //   merchantRefNum
-        //   + customerProfileId (if exists, otherwise insert "")
-        //    + returnUrl +
-        //     itemId +
-        //      quantity +
-        //       Price (in tow decimal format like ‘10.00’)
-        //        + Secure hash key
-
-        $signature= hash('sha256',
-            $merchantCode .
-            $merchantRefNum .
-            $customerProfileId .
-            $returnUrl .
-            1 .
-            1 .
-            $amount .
-            $merchant_secret_key
-        );
-
-        $client = new Client();
-        try {
-            $response = $client->post('https://atfawry.fawrystaging.com/fawrypay-api/api/payments/init', [
-                'json' => [
-                    'merchantCode' => $merchantCode,
-                    'merchantRefNum' => $merchantRefNum,
-                    'customerMobile' => $customerMobile,
-                    'customerEmail' => $customerEmail,
-                    'customerName' => "Bavly",
-                    'customerProfileId' => $customerProfileId,
-                    'paymentExpiry' => $paymentExpiry,
-                    'language' => $language,
-                    'chargeItems' => [
-                        [
-                            'itemId' => 1,
-                            'description' => $itemDescription,
-                            'price' => $amount,
-                            'quantity' =>1,
-                        ]
-                    ],
-                    'returnUrl' => 'https://developer.fawrystaging.com',
-                    'authCaptureModePayment'=> false,
-                    'signature' => $signature,
-
-
-                ]
-            ]);
-
-
-                $paymentUrl = $response->getBody()->getContents();
-                return redirect($paymentUrl);
-
-        } catch (\Exception $e) {
-            return response()->json(['error' => $e->getMessage()]);
-        }
+        return $client->pay($merchantRefNum,$customerMobile,$customerEmail,$customerName,1,$paymentExpiry,$language,$itemDescription,$amount) ;
     }
 
 }

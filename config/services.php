@@ -41,6 +41,10 @@ return [
     'nutrition' => [
         'app_id' => env('NUTRITION_APP_ID'),
         'app_key' => env('NUTRITION_APP_KEY'),
+    ],
+    'fawry'=>[
+        'merchant_code'=>env('FAWRY_MERCHANT_CODE'),
+        'security_key'=>env('FAWRY_SECURITY_KEY')
     ]
 
 ];
