@@ -19,6 +19,11 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
-        //
+        $this->app->singleton(\App\Clients\WeatherConfig::class, function ($app) {
+            return new \App\Clients\WeatherConfig([
+                'base_uri' => 'http://api.weatherstack.com/',
+                'timeout'  => 5.0,
+            ]);
+        });
     }
 }

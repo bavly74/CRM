@@ -11,7 +11,7 @@ use Illuminate\Http\Request;
 class ProjectController extends Controller
 {
     public function index(){
-        $data = Project::with('client','user')->get();
+        $data = Project::with('client','user','tasks')->paginate();
         return view('projects.index',compact('data'));
     }
 

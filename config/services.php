@@ -35,4 +35,12 @@ return [
         ],
     ],
 
+    'weather' => [
+        'api_key' => env('WEATHER_API_KEY'),
+    ],
+    'nutrition' => [
+        'app_id' => env('NUTRITION_APP_ID'),
+        'app_key' => env('NUTRITION_APP_KEY'),
+    ]
+
 ];

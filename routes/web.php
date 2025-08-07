@@ -5,7 +5,11 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\User\UserController;
 use \App\Http\Controllers\RolePermissionController;
 use \App\Http\Controllers\ClientController;
+use App\Http\Controllers\FawryController;
+use App\Http\Controllers\NutritionController;
 use \App\Http\Controllers\ProjectController ;
+use App\Http\Controllers\TaskController;
+use App\Http\Controllers\WeatherController;
 
 Route::group(
 [
@@ -108,6 +112,34 @@ Route::group(
             ->name('projects.show')
             ->middleware('permission:add projects');
     });
+
+        //tasks CRUD
+    Route::group(['prefix'=>'tasks'],function(){
+        Route::get('/',[TaskController::class,'index'])
+            ->name('tasks.index')
+            ->middleware('permission:view tasks');
+
+        Route::get('/create',[TaskController::class,'create'])
+            ->name('tasks.create')
+            ->middleware('permission:add tasks');
+
+        Route::post('/store',[TaskController::class,'store'])
+            ->name('tasks.store')
+            ->middleware('permission:add tasks');
+
+        Route::get('/show/{task}',[TaskController::class,'show'])
+            ->name('tasks.show')
+            ->middleware('permission:add tasks');
+    });
+
+    
+    Route::get('/weather', [WeatherController::class,'index'])->middleware(['auth', 'verified'])->name('weather.index');
+
+    Route::get('/nutrition', [NutritionController::class,'index'])->middleware(['auth', 'verified'])->name('nutrition.index');
+
+    Route::get('/fawry', [FawryController::class,'index'])->middleware(['auth', 'verified'])->name('fawry.index');
+    Route::get('/fawry/init', [FawryController::class,'initFawryPayment'])->middleware(['auth', 'verified'])->name('fawry.init');
+
 });
 
 

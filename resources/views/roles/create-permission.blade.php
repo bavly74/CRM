@@ -31,7 +31,7 @@
                                                 data-checkboxes="mygroup"
                                                 class="custom-control-input"
                                                 id="checkbox-{{ $role->id }}"
-                                                required>
+                                                >
 
                                             <label for="checkbox-{{ $role->id }}" class="custom-control-label mt-1">
                                                 {{ $role->name }}
