@@ -12,7 +12,7 @@ class FawryController extends Controller
         $merchantCode = '1tSa6uxz2nTwlaAmt38enA==';
         $merchantRefNum = \Str::random(4) . '-' . time() ; // Unique reference number for the transaction
         $customerProfileId = '777777';
-        $paymentMethod = 'PayUsingCC';  //choose payment method, can be 'PayAtFawry' or PAYATFAWRY, CASHONDELIVERY, PayUsingCC, MWALLET
+        $paymentMethod = 'PayAtFawry';  //choose payment method, can be 'PayAtFawry' or PAYATFAWRY, CASHONDELIVERY, PayUsingCC, MWALLET
         $amount = '580.55';
         $cardNumber = '4242424242424242';
         $cardExpiryYear = '28';
@@ -21,22 +21,8 @@ class FawryController extends Controller
         $returnUrl = "https://developer.fawrystaging.com";
         $merchant_sec_key = '259af31fc2f74453b3a55739b21ae9ef';
 
-        $signature = hash('sha256',
-            $merchantCode .
-            $merchantRefNum .
-            $customerProfileId .
-            $paymentMethod .
-            $amount .
-            $cardNumber .
-            $cardExpiryYear .
-            $cardExpiryMonth .
-            $cvv .
-            $returnUrl .
-            $merchant_sec_key
-        );
-
-        //Signature Using Card 
-        // $signature = hash('sha256' , 
+        //Pay using card
+        // $signature = hash('sha256',
         //     $merchantCode .
         //     $merchantRefNum .
         //     $customerProfileId .
@@ -50,16 +36,17 @@ class FawryController extends Controller
         //     $merchant_sec_key
         // );
 
-        //Signature Using Fawry Ref Number 
-        // $signature = hash('sha256' , $merchantCode . $merchantRefNum . $customerProfileId . $paymentMethod . $amount . $merchant_sec_key);
+
+        //Signature Using Fawry Ref Number
+        $signature = hash('sha256' , $merchantCode . $merchantRefNum . $customerProfileId . $paymentMethod . $amount . $merchant_sec_key);
 
         $client = new Client();
         try{
-            
-            
-                $response = $client->post('https://atfawry.fawrystaging.com/fawrypay-api/api/payments/init', [
+
+
+                $response = $client->post('https://atfawry.fawrystaging.com/ECommerceWeb/Fawry/payments/charge', [
                             'json' => [
-                                // Using Card 
+                                // Using Card
                                 // 'merchantCode' => $merchantCode,
                                 // 'merchantRefNum' => $merchantRefNum,
                                 // 'customerMobile' => '01234567891',
@@ -106,12 +93,9 @@ class FawryController extends Controller
                                                     'quantity' => '1'
                                                     ]
                                                 ],
-                                'signature' =>$signature,
-                                'returnUrl'=> 'https://developer.fawrystaging.com',
-                                'language' => "en-gb",
+                                'signature' => $signature,
                                 'paymentMethod' => $paymentMethod,
-                                'description' => 'example description',
-                                'authCaptureModePayment'=> false,
+                                'description' => 'example description'
                             ]
                         ]);
 
@@ -135,18 +119,18 @@ class FawryController extends Controller
         $itemId = 'ITEM001';
         $itemDescription = 'Test item';
         $quantity = 1;
-        $paymentExpiry= '1631138400000'; 
+        $paymentExpiry= '1631138400000';
         $language = "en-gb";
         $returnUrl = 'https://developer.fawrystaging.com'; // رابط العودة بعد الدفع
         $merchantCode = '1tSa6uxz2nRbgY+b+cZGyA==';
         $merchantRefNum = strtoupper(\Str::random(4)) . '-' . time();
         $customerProfileId = 'CUSTs1001';
-        $paymentMethod = ''; // فارغ
+        $paymentMethod = 'PayAtFawry'; // فارغ
         $merchant_secret_key = '259af31fc2f74453b3a55739b21ae9ef';
 
 
         //  "merchantCode +
-        //   merchantRefNum 
+        //   merchantRefNum
         //   + customerProfileId (if exists, otherwise insert "")
         //    + returnUrl +
         //     itemId +
@@ -154,7 +138,7 @@ class FawryController extends Controller
         //       Price (in tow decimal format like ‘10.00’)
         //        + Secure hash key
 
-        $signature = hash('sha256',
+        $signature= hash('sha256',
             $merchantCode .
             $merchantRefNum .
             $customerProfileId .
@@ -177,28 +161,29 @@ class FawryController extends Controller
                     'customerProfileId' => $customerProfileId,
                     'paymentExpiry' => $paymentExpiry,
                     'language' => $language,
-                                        'chargeItems' => [
+                    'chargeItems' => [
                         [
-                            'itemId' => $itemId,
+                            'itemId' => 1,
                             'description' => $itemDescription,
                             'price' => $amount,
-                            'quantity' => $quantity,
+                            'quantity' =>1,
                         ]
                     ],
                     'returnUrl' => 'https://developer.fawrystaging.com',
                     'authCaptureModePayment'=> false,
                     'signature' => $signature,
-                    
+
 
                 ]
             ]);
 
-            $data = json_decode($response->getBody(), true);
-            return response()->json($data);
+
+                $paymentUrl = $response->getBody()->getContents();
+                return redirect($paymentUrl);
 
         } catch (\Exception $e) {
             return response()->json(['error' => $e->getMessage()]);
         }
     }
-        
+
 }
