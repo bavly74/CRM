@@ -6,6 +6,7 @@ use App\Http\Controllers\User\UserController;
 use \App\Http\Controllers\RolePermissionController;
 use \App\Http\Controllers\ClientController;
 use App\Http\Controllers\FawryController;
+use App\Http\Controllers\payPalController;
 use App\Http\Controllers\NutritionController;
 use \App\Http\Controllers\ProjectController ;
 use App\Http\Controllers\TaskController;
@@ -132,13 +133,15 @@ Route::group(
             ->middleware('permission:add tasks');
     });
 
-    
+
     Route::get('/weather', [WeatherController::class,'index'])->middleware(['auth', 'verified'])->name('weather.index');
 
     Route::get('/nutrition', [NutritionController::class,'index'])->middleware(['auth', 'verified'])->name('nutrition.index');
 
     Route::get('/fawry', [FawryController::class,'index'])->middleware(['auth', 'verified'])->name('fawry.index');
     Route::get('/fawry/init', [FawryController::class,'initFawryPayment'])->middleware(['auth', 'verified'])->name('fawry.init');
+
+    Route::get('/pay-pal', [payPalController::class,'index'])->middleware(['auth', 'verified'])->name('pay-pal.index');
 
 });
 
